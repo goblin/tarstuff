@@ -1,0 +1,37 @@
+These tools are a work-in-progress proof-of-concept that pristine-tar
+could use a smaller delta file.
+
+The purpose is to recreate a tar file from a Version Control system
+that's bit-for-bit identical with a given target .tar file. I.e. it
+does the same thing as pristine-tar (https://github.com/pah/pristine-tar)
+but without the need for xdelta and with a smaller delta file.
+
+USAGE
+
+readtar.pl will read a TAR archiveon stdin and produce a manifest
+containing file ownership information on stdout.
+
+patchtar.pl reads a TAR archive recreated from VCS on stdin and takes
+the manifest file (as created above) as an argument. It recreates the
+original tar file on stdout.
+
+The manifest is a text file and seems considerably smaller (after
+compression) than the binary delta produced by pristine-tar.
+
+However, I've not tested all the different tar formats and I'm not sure
+this will always work as intended.
+
+SOME RATIONALE
+
+I wanted the delta file to be a text file so that Git could easily
+record differences between versions to produce an even smaller archive.
+But I've not implemented Git support the way pristine-tar does, yet.
+
+FUTURE
+
+Ideally, pristine-tar would incorporate this algorithm and choose between
+the one that produces the smaller delta.
+
+LICENSE
+
+GPLv3 or later
